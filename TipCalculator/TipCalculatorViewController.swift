@@ -45,10 +45,11 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
     // Text Field Delegate Methods
     
     // Tapping on the view should dismiss the keyboard.
+    /*
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-    
+    */
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         tipsAmountLabel.text = "0.00"
         totalAmountLabel.text = "0.00"
