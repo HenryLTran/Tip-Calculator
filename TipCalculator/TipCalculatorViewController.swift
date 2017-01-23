@@ -7,39 +7,84 @@
 //
 
 import UIKit
-var tips: Double = 0.15
 
 class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
     
+    var currencyFormatter = NumberFormatter()
+    var tipArray: [Double] = [0.10,0.15,0.20]
+    var bill: Double?
     @IBOutlet weak var billTextField: UITextField!
     @IBOutlet weak var tipsAmountLabel: UILabel!
     @IBOutlet weak var totalAmountLabel: UILabel!
     @IBOutlet weak var tipPercent: UISegmentedControl!
+    @IBOutlet weak var firstView: UIView!
+    @IBOutlet weak var secondView: UIView!
     
     @IBAction func indexSegmentChanged (sender:UISegmentedControl) {
-        switch tipPercent.selectedSegmentIndex {
-        case 0:     tips = 0.10
-        case 2:     tips = 0.20
-        default:    tips = 0.15
-        }
-        calculateTips()
+        calculateTip()
+    }
+    
+    @IBAction func calculateButton (sender: UIButton) {
+        calculateTip()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //print("viewDidLoad")
         self.billTextField.delegate = self
         self.billTextField.becomeFirstResponder()
-        self.billTextField.font = UIFont(name: (billTextField.font?.fontName)!, size: 35)
         self.billTextField.keyboardType = UIKeyboardType.decimalPad
+        
+        currencyFormatter.usesGroupingSeparator = true
+        currencyFormatter.numberStyle = NumberFormatter.Style.currency
+        currencyFormatter.locale = NSLocale.current
     }
     
-    func calculateTips() {
-        let bill = Double(billTextField.text!)
-        let tipsAmount = bill! * tips
-        tipsAmountLabel.text = "\(tipsAmount.roundTo(places: 2))"
-        totalAmountLabel.text = "\((bill!+tipsAmount).roundTo(places: 2))"
-        billTextField.text = "\(bill!.roundTo(places: 2))"
-        billTextField.font = UIFont(name: (billTextField.font?.fontName)!, size: 35)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //print("viewWillAppear")
+        self.secondView.alpha = 0.25
+        let defaults = UserDefaults.standard
+        if let tipTimestamp = defaults.object(forKey: "SavedTimestamp") as? Date {
+            let currentTimestamp = Date().addingTimeInterval(-600) //10m=600s
+            if (currentTimestamp <= tipTimestamp) {
+                if let newBill = defaults.object(forKey: "SavedBillAmount") as? Double {
+                //bill = round(bill!*100)/100
+                //bill = newBill
+                billTextField.text = "\(newBill)"
+            
+                if let tipSegment = defaults.object(forKey: "SavedTipSegment") as? Int
+                {
+                    tipPercent.selectedSegmentIndex = tipSegment
+                }
+                calculateTip()
+                }
+            } //if (currentDate <= tipTimestamp)
+            else
+            {   billTextField.text = ""
+                //bill = 0.0
+                if let tipSegment = defaults.object(forKey: "TipSegment") as? Int
+                {
+                    tipPercent.selectedSegmentIndex = tipSegment
+                }
+            } //else
+        }  //if let tipTimestamp
+    } //viewWillAppear
+    
+    func calculateTip() {
+        self.secondView.alpha = 1
+        if let newBill = Double(billTextField.text!) {
+        let tip = tipArray[tipPercent.selectedSegmentIndex]
+        var tipAmount = (newBill * tip)
+        tipAmount = round(tipAmount*100)/100
+        tipsAmountLabel.text = "\(tipAmount)"
+        let totalAmount = newBill + tipAmount
+        totalAmountLabel.text = currencyFormatter.string(from: totalAmount as NSNumber)
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.savedBill = newBill
+        delegate.savedTipSegment = tipPercent.selectedSegmentIndex
+        }
     }
     
     // Text Field Delegate Methods
@@ -51,22 +96,13 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
     }
     */
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        tipsAmountLabel.text = "0.00"
-        totalAmountLabel.text = "0.00"
+        self.secondView.alpha = 0.25
         return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        calculateTips()
+        calculateTip()
         return true
-    }
-}
-
-extension Double {
-    /// Rounds the double to decimal places value
-    func roundTo(places:Int) -> Double {
-        let divisor = pow(10.0, Double(places))
-        return (self * divisor).rounded() / divisor
     }
 }

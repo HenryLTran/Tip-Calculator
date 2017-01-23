@@ -12,10 +12,16 @@ class TipSettingViewController: UIViewController {
     @IBOutlet weak var tipPercent: UISegmentedControl!
     
     @IBAction func indexChanged(sender:UISegmentedControl) {
-        switch tipPercent.selectedSegmentIndex {
-        case 0:     tips = 0.10
-        case 2:     tips = 0.20
-        default:    tips = 0.15
+        let defaults = UserDefaults.standard
+        defaults.set(tipPercent.selectedSegmentIndex, forKey: "TipSegment")
+        defaults.synchronize()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let defaults = UserDefaults.standard
+        if let tipSegment = defaults.object(forKey: "TipSegment") as? Int {
+            tipPercent.selectedSegmentIndex = tipSegment
         }
     }
     
