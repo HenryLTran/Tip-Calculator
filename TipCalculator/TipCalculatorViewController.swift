@@ -30,11 +30,11 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print("viewDidLoad")
+        print("viewDidLoad")
         self.billTextField.delegate = self
         self.billTextField.becomeFirstResponder()
         self.billTextField.keyboardType = UIKeyboardType.decimalPad
-        
+        self.billTextField.keyboardAppearance = UIKeyboardAppearance.dark
         currencyFormatter.usesGroupingSeparator = true
         currencyFormatter.numberStyle = NumberFormatter.Style.currency
         currencyFormatter.locale = NSLocale.current
@@ -42,22 +42,23 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //print("viewWillAppear")
+        print("viewWillAppear")
         self.secondView.alpha = 0.25
+
         let defaults = UserDefaults.standard
         if let tipTimestamp = defaults.object(forKey: "SavedTimestamp") as? Date {
             let currentTimestamp = Date().addingTimeInterval(-600) //10m=600s
             if (currentTimestamp <= tipTimestamp) {
                 if let newBill = defaults.object(forKey: "SavedBillAmount") as? Double {
-                //bill = round(bill!*100)/100
-                //bill = newBill
                 billTextField.text = "\(newBill)"
-            
+
                 if let tipSegment = defaults.object(forKey: "SavedTipSegment") as? Int
                 {
                     tipPercent.selectedSegmentIndex = tipSegment
                 }
+ 
                 calculateTip()
+ 
                 }
             } //if (currentDate <= tipTimestamp)
             else

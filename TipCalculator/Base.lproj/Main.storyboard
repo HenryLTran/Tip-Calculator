@@ -42,7 +42,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Va-T4-2Co">
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <subviews>
-                                    <view alpha="0.25" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHG-kL-p0B">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHG-kL-p0B">
                                         <rect key="frame" x="0.0" y="175" width="375" height="163"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tip" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3b-56-7VK">
@@ -74,7 +74,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="1" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="a3b-56-7VK" firstAttribute="top" secondItem="fHG-kL-p0B" secondAttribute="top" constant="25" id="BFU-PN-tdc"/>
                                             <constraint firstAttribute="bottom" secondItem="Ham-1q-sd9" secondAttribute="bottom" constant="20" id="CoO-JZ-Iga"/>
@@ -111,8 +111,19 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="BWL-Wa-rYJ"/>
                                         </connections>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAd-az-FPB">
+                                        <rect key="frame" x="306" y="346" width="35" height="60"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="ƒ">
+                                            <color key="titleColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="calculateButtonWithSender:" destination="BYZ-38-t0r" eventType="touchDown" id="hXA-Ae-FeF"/>
+                                        </connections>
+                                    </button>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ew2-Do-B37">
-                                        <rect key="frame" x="27" y="113" width="304" height="29"/>
+                                        <rect key="frame" x="35" y="114" width="304" height="29"/>
+                                        <color key="backgroundColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="DkJ-fI-ctS"/>
                                         </constraints>
@@ -121,38 +132,29 @@
                                             <segment title="15%"/>
                                             <segment title="20%"/>
                                         </segments>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="indexSegmentChangedWithSender:" destination="BYZ-38-t0r" eventType="valueChanged" id="Mdt-y4-1AF"/>
                                         </connections>
                                     </segmentedControl>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AAd-az-FPB">
-                                        <rect key="frame" x="262" y="346" width="105" height="39"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="Calculate">
-                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="titleShadowColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="calculateButtonWithSender:" destination="BYZ-38-t0r" eventType="touchDown" id="hXA-Ae-FeF"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="0.34733952702702703" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="0.34733952699999998" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="Yba-3y-gYr" firstAttribute="top" secondItem="5Va-T4-2Co" secondAttribute="top" constant="38" id="3be-9f-tta"/>
                                     <constraint firstItem="Yba-3y-gYr" firstAttribute="top" secondItem="sID-um-IjX" secondAttribute="top" id="3sE-Wq-YWc"/>
                                     <constraint firstAttribute="trailing" secondItem="fHG-kL-p0B" secondAttribute="trailing" id="5os-5O-w5k"/>
                                     <constraint firstItem="sID-um-IjX" firstAttribute="leading" secondItem="Yba-3y-gYr" secondAttribute="trailing" constant="8" symbolic="YES" id="Ic9-6A-us5"/>
                                     <constraint firstItem="fHG-kL-p0B" firstAttribute="leading" secondItem="5Va-T4-2Co" secondAttribute="leading" id="JDU-SD-WPP"/>
-                                    <constraint firstItem="Yba-3y-gYr" firstAttribute="leading" secondItem="Ew2-Do-B37" secondAttribute="leading" id="KTb-7w-J2b"/>
-                                    <constraint firstAttribute="trailing" secondItem="Ew2-Do-B37" secondAttribute="trailing" constant="44" id="W6B-Dg-LRK"/>
+                                    <constraint firstItem="Yba-3y-gYr" firstAttribute="leading" secondItem="Ew2-Do-B37" secondAttribute="leading" constant="-8" id="KTb-7w-J2b"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ew2-Do-B37" secondAttribute="trailing" constant="36" id="W6B-Dg-LRK"/>
                                     <constraint firstItem="AAd-az-FPB" firstAttribute="top" secondItem="fHG-kL-p0B" secondAttribute="bottom" constant="8" id="WUH-82-Z3Y"/>
-                                    <constraint firstItem="Ew2-Do-B37" firstAttribute="top" secondItem="Yba-3y-gYr" secondAttribute="bottom" constant="20" id="Xb8-lh-J4S"/>
+                                    <constraint firstItem="Ew2-Do-B37" firstAttribute="top" secondItem="Yba-3y-gYr" secondAttribute="bottom" constant="21" id="Xb8-lh-J4S"/>
                                     <constraint firstItem="sID-um-IjX" firstAttribute="trailing" secondItem="5Va-T4-2Co" secondAttribute="trailingMargin" id="agd-99-yBK"/>
                                     <constraint firstItem="Yba-3y-gYr" firstAttribute="leading" secondItem="5Va-T4-2Co" secondAttribute="leading" constant="27" id="g2Q-yG-jsN"/>
                                     <constraint firstItem="Yba-3y-gYr" firstAttribute="bottom" secondItem="sID-um-IjX" secondAttribute="bottom" id="hdg-pd-30Q"/>
-                                    <constraint firstAttribute="trailing" secondItem="AAd-az-FPB" secondAttribute="trailing" constant="8" id="s1A-A7-cOd"/>
-                                    <constraint firstItem="fHG-kL-p0B" firstAttribute="top" secondItem="Ew2-Do-B37" secondAttribute="bottom" constant="34" id="vqa-Fh-J3o"/>
+                                    <constraint firstAttribute="trailing" secondItem="AAd-az-FPB" secondAttribute="trailing" constant="34" id="s1A-A7-cOd"/>
+                                    <constraint firstItem="fHG-kL-p0B" firstAttribute="top" secondItem="Ew2-Do-B37" secondAttribute="bottom" constant="33" id="vqa-Fh-J3o"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -167,6 +169,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Tip Calculator" id="KcO-nz-S9Z">
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="xKL-Z0-P38">
+                            <color key="tintColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="OA1-eh-aW7" kind="show" identifier="TipSetting" id="mG0-KP-89M"/>
                             </connections>
@@ -200,17 +203,19 @@
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gC2-PH-A0j">
                                 <rect key="frame" x="16" y="108" width="343" height="29"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <segments>
                                     <segment title="10%"/>
                                     <segment title="15%"/>
                                     <segment title="20%"/>
                                 </segments>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <action selector="indexChangedWithSender:" destination="OA1-eh-aW7" eventType="valueChanged" id="F8a-cg-pPQ"/>
                                 </connections>
                             </segmentedControl>
                         </subviews>
-                        <color key="backgroundColor" red="0.91355508888377535" green="0.72506573088668969" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.91355508890000003" green="0.72506573090000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="gC2-PH-A0j" firstAttribute="leading" secondItem="A1u-u2-yEx" secondAttribute="leadingMargin" id="EaF-hh-NvC"/>
                             <constraint firstItem="gC2-PH-A0j" firstAttribute="trailing" secondItem="A1u-u2-yEx" secondAttribute="trailingMargin" id="af6-ay-Pne"/>
