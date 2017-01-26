@@ -12,8 +12,11 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
     
     var currencyFormatter = NumberFormatter()
     var tipArray: [Double] = [0.10,0.15,0.20]
-    var bill: Double?
+    //var bill: Double?
+    var alpha: Double = 1.0
+    
     @IBOutlet weak var billTextField: UITextField!
+    @IBOutlet weak var currencyLabel: UILabel!
     @IBOutlet weak var tipsAmountLabel: UILabel!
     @IBOutlet weak var totalAmountLabel: UILabel!
     @IBOutlet weak var tipPercent: UISegmentedControl!
@@ -30,61 +33,69 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewDidLoad")
+        //print("viewDidLoad")
         self.billTextField.delegate = self
         self.billTextField.becomeFirstResponder()
+        
         self.billTextField.keyboardType = UIKeyboardType.decimalPad
-        self.billTextField.keyboardAppearance = UIKeyboardAppearance.dark
+        
         currencyFormatter.usesGroupingSeparator = true
         currencyFormatter.numberStyle = NumberFormatter.Style.currency
         currencyFormatter.locale = NSLocale.current
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("viewWillAppear")
-        self.secondView.alpha = 0.25
-
+        if let currencyS = currencyFormatter.locale.currencySymbol {
+            currencyLabel.text = currencyS
+        }
+        self.navigationController?.navigationBar.tintColor = self.navigationItem.rightBarButtonItem?.tintColor
+        
         let defaults = UserDefaults.standard
         if let tipTimestamp = defaults.object(forKey: "SavedTimestamp") as? Date {
             let currentTimestamp = Date().addingTimeInterval(-600) //10m=600s
             if (currentTimestamp <= tipTimestamp) {
-                if let newBill = defaults.object(forKey: "SavedBillAmount") as? Double {
-                billTextField.text = "\(newBill)"
-
-                if let tipSegment = defaults.object(forKey: "SavedTipSegment") as? Int
-                {
-                    tipPercent.selectedSegmentIndex = tipSegment
-                }
- 
-                calculateTip()
- 
+                if let bill = defaults.object(forKey: "SavedBillAmount") as? Double {
+                    billTextField.text = "\(bill)"
                 }
             } //if (currentDate <= tipTimestamp)
-            else
-            {   billTextField.text = ""
-                //bill = 0.0
-                if let tipSegment = defaults.object(forKey: "TipSegment") as? Int
-                {
-                    tipPercent.selectedSegmentIndex = tipSegment
-                }
-            } //else
-        }  //if let tipTimestamp
+            else {
+                billTextField.text = ""
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //print("viewWillAppear")
+
+        //billTextField.text = ""
+        //setting default tip
+        let defaults = UserDefaults.standard
+        if let tipSegment = defaults.object(forKey: "TipSegment") as? Int
+            {
+                tipPercent.selectedSegmentIndex = tipSegment
+            }
+        
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .transitionCrossDissolve, animations: {
+            self.secondView.alpha = 0.0
+        }, completion: nil)
+
     } //viewWillAppear
     
     func calculateTip() {
-        self.secondView.alpha = 1
-        if let newBill = Double(billTextField.text!) {
-        let tip = tipArray[tipPercent.selectedSegmentIndex]
-        var tipAmount = (newBill * tip)
-        tipAmount = round(tipAmount*100)/100
-        tipsAmountLabel.text = "\(tipAmount)"
-        let totalAmount = newBill + tipAmount
-        totalAmountLabel.text = currencyFormatter.string(from: totalAmount as NSNumber)
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .transitionCrossDissolve, animations: {
+            self.secondView.alpha = 1.00
+        }, completion: nil)
         
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        delegate.savedBill = newBill
-        delegate.savedTipSegment = tipPercent.selectedSegmentIndex
+        if var bill = Double(billTextField.text!) {
+            bill = round(bill*100)/100
+            billTextField.text = "\(bill)"
+            let tip = tipArray[tipPercent.selectedSegmentIndex]
+            var tipAmount = (bill * tip)
+            tipAmount = round(tipAmount*100)/100
+            tipsAmountLabel.text = "\(tipAmount)"
+            let totalAmount = bill + tipAmount
+            totalAmountLabel.text = currencyFormatter.string(from: totalAmount as NSNumber)
+            
+            let delegate = UIApplication.shared.delegate as! AppDelegate
+            delegate.savedBill = bill
         }
     }
     
@@ -97,7 +108,9 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
     }
     */
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        self.secondView.alpha = 0.25
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .transitionCrossDissolve, animations: {
+            self.secondView.alpha = 0.0
+        }, completion: nil)
         return true
     }
     
@@ -105,5 +118,13 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         calculateTip()
         return true
+    }
+}
+
+extension String {
+    subscript(idx: Int) -> Character {
+        guard let strIdx = index(startIndex, offsetBy: idx, limitedBy: endIndex)
+            else { fatalError("String index out of bounds") }
+        return self[strIdx]
     }
 }
