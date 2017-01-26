@@ -72,17 +72,12 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
             {
                 tipPercent.selectedSegmentIndex = tipSegment
             }
-        
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: .transitionCrossDissolve, animations: {
-            self.secondView.alpha = 0.0
-        }, completion: nil)
+        viewAnimatedTransition(alpha: 0.0)
 
     } //viewWillAppear
     
     func calculateTip() {
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: .transitionCrossDissolve, animations: {
-            self.secondView.alpha = 1.00
-        }, completion: nil)
+        viewAnimatedTransition(alpha: 1.0)
         
         if var bill = Double(billTextField.text!) {
             bill = round(bill*100)/100
@@ -99,6 +94,12 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func viewAnimatedTransition(alpha: CGFloat) {
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .transitionCrossDissolve, animations: {
+            self.secondView.alpha = alpha
+        }, completion: nil)
+    }
+    
     // Text Field Delegate Methods
     
     // Tapping on the view should dismiss the keyboard.
@@ -108,9 +109,7 @@ class TipCalculatorViewController: UIViewController, UITextFieldDelegate {
     }
     */
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: .transitionCrossDissolve, animations: {
-            self.secondView.alpha = 0.0
-        }, completion: nil)
+        viewAnimatedTransition(alpha: 0.0)
         return true
     }
     
